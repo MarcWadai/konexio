@@ -1,0 +1,14 @@
+.detailPage {
+    padding-top: 2rem;
+    margin-left: 2.2rem;
+    margin-right: 2.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .inputItem {
+        margin: 0.8rem;
+        min-width: 350px;
+    }
+}

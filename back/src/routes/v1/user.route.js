@@ -8,11 +8,11 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(auth(), validate(userValidation.getUsers), userController.getUsers);
+  .get(validate(userValidation.getUsers), userController.getUsers);
 
 router
   .route('/:userId')
-  .get(auth('manageUser'), validate(userValidation.getUser), userController.getUser)
+  .get(validate(userValidation.getUser), userController.getUser)
   .patch(auth('manageUser'), validate(userValidation.updateUser), userController.updateUser);
 
 module.exports = router;

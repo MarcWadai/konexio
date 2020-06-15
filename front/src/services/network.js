@@ -11,41 +11,22 @@ const config = {
   }
 }
 
-const httpClient = axios.create(config)
 
-const authInterceptor = config => {
-  return config
-}
-
-const logsInterceptor = config => {
-  return config
-}
-
-httpClient.interceptors.request.use(authInterceptor)
-httpClient.interceptors.request.use(logsInterceptor)
-
-/** Adding the response interceptors */
-httpClient.interceptors.response.use(
-  response => {
-    /** TODO: Add any response interceptors */
-    return response.data
-  },
-  error => {
-    /** TODO: Do something with response error */
-    if (error.response) {
-        setError(error.response)
-    }
-    return Promise.reject(error)
+async function register (body) {
+  try {
+    const { data } = await axios.post(`${config.baseURL}/auth/register`, body);
+    console.log('data', data);
+  } catch(err) {
+    console.error(err) 
   }
-)
-
+}
 
 function getUsers () {
 
 }
 
-function getUser () {
+function getUser (userId) {
 
 }
 
-export { httpClient, getUsers, getUser }
+export { register, getUsers, getUser }

@@ -3,17 +3,10 @@
 
 ### Installation
 
-Clone the repo:
-
-```bash
-git clone https://github.com/hagopj13/node-express-mongoose-boilerplate.git
-cd node-express-mongoose-boilerplate
-```
-
 Install the dependencies:
 
 ```bash
-yarn install
+npm install
 ```
 
 Set the environment variables:
@@ -36,32 +29,6 @@ Running in production:
 
 ```bash
 yarn start
-```
-
-Testing:
-
-```bash
-# run all tests
-yarn test
-
-# run all tests in watch mode
-yarn test:watch
-
-# run test coverage
-yarn coverage
-```
-
-Docker:
-
-```bash
-# run docker container in development mode
-yarn docker:dev
-
-# run docker container in production mode
-yarn docker:prod
-
-# run all tests in a docker container
-yarn docker:test
 ```
 
 Linting:
@@ -111,11 +78,9 @@ List of available routes:
 `POST /v1/auth/refresh-tokens` - refresh auth tokens\
 
 **User routes**:\
-`POST /v1/users` - create a user\
 `GET /v1/users` - get all users\
 `GET /v1/users/:userId` - get user\
 `PATCH /v1/users/:userId` - update user\
-`DELETE /v1/users/:userId` - delete user
 
 ## Error Handling
 

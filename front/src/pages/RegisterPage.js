@@ -7,6 +7,7 @@ import {
   Checkbox,
   Button
 } from 'antd';
+import "../styles/pages/RegisterPage.scss"
 
 const { Option } = Select;
 
@@ -50,113 +51,133 @@ const RegisterPage = () => {
 
   return (
     <Layout>
+      <div className="registerPage">
 
 
-      <Form
-        {...formItemLayout}
-        form={form}
-        name="register"
-        onFinish={onFinish}
-        scrollToFirstError
-      >
-        <Form.Item
-          name="email"
-          label="E-mail"
-          rules={[
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-            {
-              required: true,
-              message: 'Please input your E-mail!',
-            },
-          ]}
+
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          scrollToFirstError
         >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          name="confirm"
-          label="Confirm Password"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Please confirm your password!',
-            },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-
-                return Promise.reject('The two passwords that you entered do not match!');
+          <Form.Item
+            name="firstname"
+            label="Firstname"
+            rules={[
+              {
+                required: true,
               },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item name="status" label="Status" rules={[{ required: true }]}>
-          <Select
-            placeholder="Select a status"
-            allowClear
+            ]}
           >
-            <Option value="TEACHER">Teacher</Option>
-            <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
-            <Option value="STUDENT">Student</Option>
-          </Select>
-        </Form.Item>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="lastname"
+            label="Lastname"
+          >
+            <Input defaultValue={""}/>
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-        <Form.Item
-          name="newsletter"
-          valuePropName="checked"
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-            Subscribe to newsletter
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject('The two passwords that you entered do not match!');
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select a status"
+              allowClear
+            >
+              <Option value="TEACHER">Teacher</Option>
+              <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
+              <Option value="STUDENT">Student</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="newsletter"
+            valuePropName="checked"
+            {...tailFormItemLayout}
+          >
+            <Checkbox defaultChecked={false}>
+              Subscribe to newsletter
           </Checkbox>
-        </Form.Item>
+          </Form.Item>
 
-        <Form.Item
-          name="agreement"
-          valuePropName="checked"
-          rules={[
-            {
-              validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject('Should accept agreement'),
-            },
-          ]}
-          {...tailFormItemLayout}
-        >
-          <Checkbox>
-            I have read the agreement
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox>
+              I have read the agreement
           </Checkbox>
-        </Form.Item>
+          </Form.Item>
 
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit">
+              Register
           </Button>
-        </Form.Item>
-      </Form>
+          </Form.Item>
+        </Form>
+      </div>
     </Layout>
   );
 };

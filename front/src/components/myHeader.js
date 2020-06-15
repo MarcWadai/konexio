@@ -5,12 +5,11 @@ import { useHistory } from 'react-router-dom';
 import { HomeFilled, EditFilled } from '@ant-design/icons';
 
 function MyHeader() {
-  const [current, setCurrent] = useState("register")
+  const [current, setCurrent] = useState("")
   let history = useHistory();
   const handleClick = e => {
-    console.log('click ', e);
+    history.push(`/${e.key}`)
     setCurrent(e.key)
-    history.push(e.key)
   };
   return (
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">

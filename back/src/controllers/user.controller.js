@@ -4,11 +4,6 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
 
-const createUser = catchAsync(async (req, res) => {
-  const user = await userService.createUser(req.body);
-  res.status(httpStatus.CREATED).send(user);
-});
-
 const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -31,7 +26,6 @@ const updateUser = catchAsync(async (req, res) => {
 
 
 module.exports = {
-  createUser,
   getUsers,
   getUser,
   updateUser
