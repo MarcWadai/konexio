@@ -1,98 +1,165 @@
-import React from 'react';
-import '../style/pages/loginPage.scss'
-import { useForm } from 'react-hook-form';
-import InputContainer from '../components/inputContainer'
-import CheckboxContainer from '../components/checkboxContainer'
+import React, { useState } from 'react';
+import Layout from '../components/myLayout';
+import {
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Button
+} from 'antd';
+
+const { Option } = Select;
+
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 16,
+      offset: 8,
+    },
+  },
+};
+
+const RegisterPage = () => {
+  const [form] = Form.useForm();
+
+  const onFinish = values => {
+    console.log('Received values of form: ', values);
+  };
+
+  return (
+    <Layout>
 
 
-function RegisterPage() {
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="register"
+        onFinish={onFinish}
+        scrollToFirstError
+      >
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-    const { register, errors, handleSubmit, watch } = useForm();
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
 
-    const onSubmit = (data) => {
-        console.log('data submit', data)
-    }
+        <Form.Item
+          name="confirm"
+          label="Confirm Password"
+          dependencies={['password']}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Please confirm your password!',
+            },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
 
-    return (
-        <main>
-            <div className='container'>
-                <h2 className="text-center">Connexion</h2>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="row">
-                        <InputContainer error={errors['firstname']} title='Firstname'>
-                            <input
-                                type="text"
-                                name="firstname"
-                                ref={register({ required: true })}
-                                placeholder="Firstname" />
-                        </InputContainer>
-                        <InputContainer error={errors['lastname']} title='Lastname'>
-                            <input
-                                type="text"
-                                name="lastname"
-                                ref={register()}
-                                placeholder="Lastname" />
-                        </InputContainer>
-                    </div>
-                    <div className="row">
-                        <InputContainer error={errors['email']} title='Email'>
-                            <input
-                                type="email"
-                                name="email"
-                                ref={register({ required: true })}
-                                placeholder="Email" />
-                        </InputContainer>
-                        <InputContainer error={errors['password']} title='Password'>
-                            <input
-                                type="password"
-                                name="password"
-                                ref={register({
-                                    required: "You must specify a password",
-                                    minLength: {
-                                        value: 8,
-                                        message: "Password must have at least 8 characters"
-                                    }
-                                })}
-                                placeholder="Password" />
-                        </InputContainer>
-                        <InputContainer error={errors['password_repeat']} title='Password confirmation'>
-                            <input
-                                type="password"
-                                name="password_repeat"
-                                ref={register({required: true, validate: v => v === watch('password') || "The password does'n match" })}
-                                placeholder="Password" />
-                        </InputContainer>
-                    </div>
-                    <div className="row">
-                        <InputContainer error={errors['password']} title='Password confirmation'>
-                            <select
-                                name="status"
-                                ref={register({ required: true })}>
-                                <option value="">--Please choose an option--</option>
-                                <option value="TEACHER">Teacher</option>
-                                <option value="TEACHER_ASSISTANT">Teacher assistant</option>
-                                <option value="STUDENT">Student</option>
-                            </select>
-                        </InputContainer>
-                    </div>
-                    <div className="row">
-                        <CheckboxContainer error={errors['newsletter']} title='Subscribe to newsletter'>
-                            <input type="checkbox" name="newsletter" ref={register()} />
-                        </CheckboxContainer>
-                    </div>
-                    <div className="row">
-                        <CheckboxContainer error={errors['agreecondition']} title='I have read terms and condition'>
-                            <input type="checkbox" name="agreecondition" ref={register({ required: true })} />
-                        </CheckboxContainer>
+                return Promise.reject('The two passwords that you entered do not match!');
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
 
-                    </div>
-                    <button type="submit" className="btn btn-blue btn-lg mb2">
-                        Register
-                    </button>
-                </form>
-            </div>
-        </main>
-    );
-}
+        <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select a status"
+            allowClear
+          >
+            <Option value="TEACHER">Teacher</Option>
+            <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
+            <Option value="STUDENT">Student</Option>
+          </Select>
+        </Form.Item>
 
-export default RegisterPage;
+        <Form.Item
+          name="newsletter"
+          valuePropName="checked"
+          {...tailFormItemLayout}
+        >
+          <Checkbox>
+            Subscribe to newsletter
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item
+          name="agreement"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+            },
+          ]}
+          {...tailFormItemLayout}
+        >
+          <Checkbox>
+            I have read the agreement
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </Layout>
+  );
+};
+
+
+export default RegisterPage
