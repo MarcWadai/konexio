@@ -1,0 +1,55 @@
+@import '../core/_variables';
+
+.simpleInput {
+    position: relative;
+    margin-bottom: 20px;
+
+    &.fluid {
+      width: 100%;
+
+      .inputContainer {
+        width: 100%;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+
+    .inputContainer {
+      position: relative;
+      display: inline-block;
+
+      .input-icon {
+        position: absolute;
+        left: 22px;
+        top: 18px;
+        color: $grey1;
+      }
+
+      .padded {
+        padding-left: 46px;
+      }
+    }
+
+    input {
+      &.large {
+        height: 54px;
+        line-height: 54px;
+      }
+    }
+
+    .inputError {
+      top: 100%;
+      margin-top: 5px;
+      font-size: 1.2rem;
+      color: $red;
+
+      .error-icon {
+        display: inline-block;
+        margin-right: 4px;
+        position: relative;
+        top: 2px
+      }
+    }
+  }

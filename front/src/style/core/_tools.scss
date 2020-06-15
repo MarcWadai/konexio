@@ -1,0 +1,43 @@
+.mb0 {
+  margin-bottom: 0;
+}
+
+.mb {
+   margin-bottom: 10px;
+ }
+
+.mb2 {
+  margin-bottom: 20px;
+}
+
+.mb3 {
+  margin-bottom: 30px;
+}
+
+.mt {
+  margin-top: 0;
+}
+
+.mt {
+  margin-top: 10px;
+}
+
+.mt2 {
+  margin-top: 20px;
+}
+
+.mt3 {
+  margin-top: 30px;
+}
+
+
+.reverse {
+  transform: scale(-1);
+}
+
+.whiteContent {
+  background: white;
+  padding: 40px;
+  border-radius: $radius4;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.04);
+}

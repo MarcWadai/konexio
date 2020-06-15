@@ -1,0 +1,59 @@
+{
+  "name": "konexio-back",
+  "version": "1.0.0",
+  "description": "Konexio technical test backend",
+  "main": "src/index.js",
+  "repository": "https://github.com/hagopj13/node-express-mongoose-boilerplate.git",
+  "author": "Marc",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "start": "pm2 start ecosystem.config.json --no-daemon",
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check **/*.js",
+    "prettier:fix": "prettier --write **/*.js"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.0",
+    "express-rate-limit": "^5.0.0",
+    "helmet": "^3.21.2",
+    "http-status": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash.pick": "^4.4.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.7.7",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "pm2": "^4.1.2",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "validator": "^13.0.0",
+    "winston": "^3.2.1",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "nodemon": "^2.0.0",
+    "prettier": "^2.0.5"
+  }
+}
