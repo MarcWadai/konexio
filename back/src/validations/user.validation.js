@@ -1,17 +1,5 @@
 const Joi = require('@hapi/joi');
-const { password, objectId } = require('./custom.validation');
-
-const createUser = {
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().custom(password),
-    firstname: Joi.string().required(),
-    lastname: Joi.string(),
-    status: Joi.string().valid('TEACHER', 'TEACHER_ASSISTANT', 'STUDENT'),
-    picture: Joi.string().required(),
-    newsletter: Joi.boolean()
-  }),
-};
+const { objectId } = require('./custom.validation');
 
 const getUsers = {
   query: Joi.object().keys({
@@ -40,7 +28,6 @@ const updateUser = {
 };
 
 module.exports = {
-  createUser,
   getUsers,
   getUser,
   updateUser

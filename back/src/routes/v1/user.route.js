@@ -150,7 +150,7 @@ module.exports = router;
  *                  type: string
  *                  format: password
  *                  minLength: 8
- *                  description: At least one number and one letter
+ *                  description: A password
  *              example:
  *                name: fake name
  *                email: fake@example.com
