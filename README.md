@@ -8,25 +8,30 @@ Two tables are created in mongodb users and token.
 - The user table store all information related to the user
 
 ------
-You can access the website here : konexio.mushcommunity.org
-you can access the API here: api.konexio.mushcommunity.org/v1
-You can access the API documentation here : api.konexio.mushcommunity.org/v1/docs
+- You can access the website here : [site](konexio.mushcommunity.org)
+- You can access the API here: [api](api.konexio.mushcommunity.org/v1)
+- You can access the API documentation here : [docs](api.konexio.mushcommunity.org/v1/docs)
 
 -----
 
 ## Back
-The stack is:
+The backend was deployed on Digital Ocean on NodeJS v12 and served by nginx. It was at first deployed on heroku, but the use of an SSL certificate was priced consequently we had mixed content error on the webpage (the static site was served through HTTPS).
+
+So I decided to make the install manually, and create the certificate with openssl and Let's encrypt.
+
+The MongoDB instance is hosted on Mongo Atlas server. 
+
+*The stack is:*
 - ExpressJS
 - Mongoose
 - Joi for schema validation
 - Multer for file upload
 - Passport, JWT and cookie for authentification and authorization
 - Swagger for the documentation
-- Deployement on heroku
 - Image hosting on S3 bucket
 
 ## Front
-The stack is 
+*The stack is :*
 - React
 - React functional components with React hooks
 - React context for simple user store
