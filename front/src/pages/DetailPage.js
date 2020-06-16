@@ -28,7 +28,6 @@ function DetailPage(props) {
     setError(false)
 
     updateFirstname({id: userId, firstname: data.firstname}).then((data) => {
-      console.log('data udpate', data);
       setSuccess(true)
     }).catch(err => {
       setError(true)

@@ -33,6 +33,7 @@ function ImageUpload(props) {
             // Get this url from response in real world.
             getBase64(info.file.originFileObj, imageUrl => {
                 setImageUrl(imageUrl)
+                props.setImage(imageUrl)
                 setLoading(false)
             });
         }
@@ -45,11 +46,11 @@ function ImageUpload(props) {
     );
     return (
         <Upload
-            name="avatar"
+            name="image"
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action="/v1/upload"
             beforeUpload={beforeUpload}
             onChange={handleChange}
         >

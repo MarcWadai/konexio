@@ -24,7 +24,6 @@ const updateUser = catchAsync(async (req, res) => {
   res.send(user);
 });
 
-
 module.exports = {
   getUsers,
   getUser,

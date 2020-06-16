@@ -12,6 +12,8 @@ import {
 import "../styles/pages/RegisterPage.scss"
 import { register } from '../services/network'
 import { withUser } from '../store/UserProvider';
+import Upload from '../components/imageUpload'
+
 
 const { Option } = Select;
 
@@ -58,7 +60,6 @@ const RegisterPage = (props) => {
     setSuccess(false)
     delete values.agreement
     delete values.confirm
-    values.picture = "https://picsum.photos/200"
     register(values).then(res => {
       setLoading(false)
       setSuccess(true)
@@ -71,6 +72,10 @@ const RegisterPage = (props) => {
     })
   };
 
+  const handleImage = (picture) => {
+    form.setFieldsValue({ picture })
+  }
+
   return (
     <Layout error={error}>
       {(success) ? <Alert message="Creation succeed" type="success" /> : null}
@@ -82,6 +87,17 @@ const RegisterPage = (props) => {
           onFinish={onFinish}
           scrollToFirstError
         >
+          <Form.Item
+            name="picture"
+            label="Profil picture"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Upload setImage={handleImage}></Upload>
+          </Form.Item>
           <Form.Item
             name="firstname"
             label="Firstname"
@@ -126,7 +142,7 @@ const RegisterPage = (props) => {
                 message: 'Please input your password!',
               },
               {
-                min: 6,
+                min: 8,
                 message: 'Please input min 6 char',
               }
             ]}
