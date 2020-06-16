@@ -7,7 +7,6 @@ function MyFooter (props) {
         <div className="footerWrapper">
           <span>Made for Konexio @2020</span>
         </div>
-      
       );
 }
 

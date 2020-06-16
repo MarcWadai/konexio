@@ -31,7 +31,6 @@ function ImageUpload(props) {
             return;
         }
         if (info.file.status === 'done') {
-            // Get this url from response in real world.
             getBase64(info.file.originFileObj, image => {
                 setImageUrl(image)
                 props.setImage(info.file.response.location)

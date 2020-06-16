@@ -17,7 +17,6 @@ export const withUser = Component => props => (
 
 const UserProvider = (props) => {
     return (
-        // Ici, rien ne change !
         <UserContext.Provider value={{...props}}>
             {props.children}
         </UserContext.Provider>
