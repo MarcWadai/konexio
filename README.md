@@ -8,9 +8,10 @@ Two tables are created in mongodb users and token.
 - The user table store all information related to the user
 
 ------
-You can access the website here : 
-you can access the API here:
-You can access the API documentation here : 
+You can access the website here : konexio.mushcommunity.org
+you can access the API here: api.konexio.mushcommunity.org/v1
+You can access the API documentation here : api.konexio.mushcommunity.org/v1/docs
+
 -----
 
 ## Back
