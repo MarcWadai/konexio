@@ -1,8 +1,8 @@
 import axios from 'axios'
 import MyContext from './mycontext'
-import { useContext } from 'react';
+// import { useContext } from 'react';
 
-const { setError } = useContext(MyContext);
+// const { setError } = useContext(MyContext);
 
 const config = {
   baseURL: process.env.REACT_APP_API_URL,
@@ -14,7 +14,7 @@ const config = {
 
 async function register (body) {
   try {
-    const { data } = await axios.post(`${config.baseURL}/auth/register`, body);
+    const { data } = await axios.post(`/v1/auth/register`, body);
     console.log('data', data);
   } catch(err) {
     console.error(err) 

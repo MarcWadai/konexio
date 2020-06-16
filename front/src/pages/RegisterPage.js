@@ -8,6 +8,7 @@ import {
   Button
 } from 'antd';
 import "../styles/pages/RegisterPage.scss"
+import { register } from '../services/network'
 
 const { Option } = Select;
 
@@ -44,9 +45,17 @@ const tailFormItemLayout = {
 
 const RegisterPage = () => {
   const [form] = Form.useForm();
-
+  const [loading, setLoading] = useState(false)
   const onFinish = values => {
+    delete values.agreement
+    delete values.confirm
+    values.picture = "https://picsum.photos/200"
     console.log('Received values of form: ', values);
+    setLoading(true)
+    register(values).then(res => {
+      console.log('res')
+      setLoading(false)
+    })
   };
 
   return (
@@ -76,8 +85,9 @@ const RegisterPage = () => {
           <Form.Item
             name="lastname"
             label="Lastname"
+            initialValue=""
           >
-            <Input defaultValue={""}/>
+            <Input/>
           </Form.Item>
           <Form.Item
             name="email"
@@ -104,6 +114,10 @@ const RegisterPage = () => {
                 required: true,
                 message: 'Please input your password!',
               },
+              {
+                min: 6,
+                message: 'Please input min 6 char',
+              }
             ]}
             hasFeedback
           >
@@ -148,6 +162,7 @@ const RegisterPage = () => {
           <Form.Item
             name="newsletter"
             valuePropName="checked"
+            initialValue={false}
             {...tailFormItemLayout}
           >
             <Checkbox defaultChecked={false}>
