@@ -3,7 +3,7 @@ import React, { createContext } from 'react';
 const defaultValue = {
     currentUser: {},
     error: null,
-    setUser: () => { },
+    setUser: () => {},
     setError: () => { }
 }
 
@@ -18,7 +18,7 @@ export const withUser = Component => props => (
 const UserProvider = (props) => {
     return (
         // Ici, rien ne change !
-        <UserContext.Provider value={defaultValue}>
+        <UserContext.Provider value={{...props}}>
             {props.children}
         </UserContext.Provider>
     );

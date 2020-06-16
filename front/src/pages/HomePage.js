@@ -1,58 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/myLayout';
 import ProfileCard from '../components/profileCard';
 import '../styles/pages/HomePage.scss';
 import { Link } from 'react-router-dom';
 import { withUser } from '../store/UserProvider';
+import { getUsers } from '../services/network';
+
 
 function HomePage(props) {
-  console.log('props', props)
-  const demoUsers = [
-    {
-      id: "1",
-      firstname: "test1",
-      lastname: "test2",
-      picture: "https://picsum.photos/200",
-      newsletter: false,
-      email: "test@test.fr"
-    },
-    {
-      id: "1",
-      firstname: "marc",
-      lastname: "siri",
-      picture: "https://picsum.photos/200",
-      newsletter: false,
-      email: "test@test.fr",
-      status: 'TEACHER'
-    },
-    {
-      id: "3",
-      firstname: "marina",
-      lastname: "siri",
-      picture: "https://picsum.photos/200",
-      newsletter: true,
-      email: "test@test.fr",
-      status: 'TEACHER'
-    },
-    {
-      id: "2",
-      firstname: "anne",
-      lastname: "siri",
-      picture: "https://picsum.photos/200",
-      newsletter: false,
-      email: "test@test.fr",
-      status: 'STUDENT'
-    }
-  ]
+  const [users, setUsers] = useState([])
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    getUsers().then(res => {
+      setUsers(res.map(o => {
+        if (props.currentUser && props.currentUser.id === o.id ) {
+          o.isCurrent = true
+          return o;
+        }
+        return o;
+      }))
+    }).catch(err => setError(err))
+  }, [props.currentUser])
+
   return (
-    <Layout>
+    <Layout error={error}>
       <div className="homePage">
         {
-          demoUsers.map((one, index) => (
-            <Link to={`/user/${one.id}`} className="cardItem" key={index}>
+          users.map((one, index) => (
+            <Link 
+             to={`/user/${one.id}`}
+             className="cardItem"
+             key={index}>
+               <span>{one.isCurrent}</span>
               <ProfileCard user={one} ></ProfileCard>
-            </Link>
-          )
+            </Link>)
           )
         }
       </div>

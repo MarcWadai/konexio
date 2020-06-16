@@ -2,10 +2,12 @@ const express = require('express');
 const validate = require('../../middlewares/validate');
 const authValidation = require('../../validations/auth.validation');
 const authController = require('../../controllers/auth.controller');
+const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
 router.post('/register', validate(authValidation.register), authController.register);
+router.get('/current', auth(), authController.current);
 router.post('/login', validate(authValidation.login), authController.login);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
 
@@ -115,6 +117,39 @@ module.exports = router;
  *                code: 401
  *                message: Invalid email or password
  */
+
+
+/**
+ * @swagger
+ * path:
+ *  /auth/current:
+ *    get:
+ *      summary: CurrentUser
+ *      tags: [Auth]
+ *      responses:
+ *        "200":
+ *          description: OK
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  user:
+ *                    $ref: '#/components/schemas/User'
+ *                  tokens:
+ *                    $ref: '#/components/schemas/AuthTokens'
+ *        "401":
+ *          description: Invalid email or password
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Error'
+ *              example:
+ *                code: 401
+ *                message: Invalid email or password
+ */
+
+
 
 /**
  * @swagger

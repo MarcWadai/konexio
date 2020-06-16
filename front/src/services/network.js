@@ -1,31 +1,53 @@
 import axios from 'axios'
-// import { useContext } from 'react';
-
-// const { setError } = useContext(MyContext);
-
-const config = {
-  baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-}
-
 
 async function register (body) {
   try {
     const { data } = await axios.post(`/v1/auth/register`, body);
-    console.log('data', data);
+    return Promise.resolve(data);
   } catch(err) {
-    console.error(err) 
+    return Promise.reject(err) 
   }
 }
 
-function getUsers () {
-
+async function getUsers () {
+  try {
+    const { data } = await axios.get(`/v1/users`);
+    return Promise.resolve(data.results);
+  } catch(err) {
+    return Promise.reject(err) 
+  }
 }
 
-function getUser (userId) {
-
+async function getUser (userId) {
+  try {
+    const { data } = await axios.get(`/v1/users/${userId}`);
+    return Promise.resolve(data);
+  } catch(err) {
+    return Promise.reject(err) 
+  }
 }
 
-export { register, getUsers, getUser }
+// Using the cookie if it is set
+async function getCurrentUser () {
+  try {
+    const { data } = await axios.get(`/v1/auth/current`);
+    return Promise.resolve(data);
+  } catch(err) {
+    return Promise.reject(false) 
+  }
+}
+
+// Using the cookie if it is set
+async function updateFirstname({id, firstname}) {
+  try {
+    const body = {firstname}
+    const { data } = await axios.patch(`/v1/users/${id}`, body);
+    return Promise.resolve(data);
+  } catch(err) {
+    return Promise.reject(err) 
+  }
+}
+
+
+
+export { register, getUsers, getUser, getCurrentUser, updateFirstname }

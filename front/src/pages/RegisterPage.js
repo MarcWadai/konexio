@@ -5,7 +5,9 @@ import {
   Input,
   Select,
   Checkbox,
-  Button
+  Button,
+  Alert,
+  Spin
 } from 'antd';
 import "../styles/pages/RegisterPage.scss"
 import { register } from '../services/network'
@@ -47,152 +49,164 @@ const tailFormItemLayout = {
 const RegisterPage = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+
   const onFinish = values => {
+    setLoading(true)
+    setError(false);
+    setSuccess(false)
     delete values.agreement
     delete values.confirm
     values.picture = "https://picsum.photos/200"
-    console.log('Received values of form: ', values);
-    setLoading(true)
     register(values).then(res => {
-      console.log('res')
       setLoading(false)
+      setSuccess(true)
       props.setUser(res.user)
+    }).catch(err => {
+      console.error(err);
+      setError(true);
+      setSuccess(false)
+      setLoading(false)
     })
   };
-  console.log('props register page ', props)
+
   return (
-      <Layout>
-        <div className="registerPage">
-          <Form
-            {...formItemLayout}
-            form={form}
-            name="register"
-            onFinish={onFinish}
-            scrollToFirstError
+    <Layout error={error}>
+      {(success) ? <Alert message="Creation succeed" type="success" /> : null}
+      <div className="registerPage">
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          scrollToFirstError
+        >
+          <Form.Item
+            name="firstname"
+            label="Firstname"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
-            <Form.Item
-              name="firstname"
-              label="Firstname"
-              rules={[
-                {
-                  required: true,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="lastname"
-              label="Lastname"
-              initialValue=""
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="E-mail"
-              rules={[
-                {
-                  type: 'email',
-                  message: 'The input is not valid E-mail!',
-                },
-                {
-                  required: true,
-                  message: 'Please input your E-mail!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="lastname"
+            label="Lastname"
+            initialValue=""
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+              {
+                min: 6,
+                message: 'Please input min 6 char',
+              }
+            ]}
+            hasFeedback
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirm Password"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+
+                  return Promise.reject('The two passwords that you entered do not match!');
                 },
-                {
-                  min: 6,
-                  message: 'Please input min 6 char',
-                }
-              ]}
-              hasFeedback
+              }),
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select a status"
+              allowClear
             >
-              <Input.Password />
-            </Form.Item>
+              <Option value="TEACHER">Teacher</Option>
+              <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
+              <Option value="STUDENT">Student</Option>
+            </Select>
+          </Form.Item>
 
-            <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              dependencies={['password']}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-
-                    return Promise.reject('The two passwords that you entered do not match!');
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item name="status" label="Status" rules={[{ required: true }]}>
-              <Select
-                placeholder="Select a status"
-                allowClear
-              >
-                <Option value="TEACHER">Teacher</Option>
-                <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
-                <Option value="STUDENT">Student</Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              name="newsletter"
-              valuePropName="checked"
-              initialValue={false}
-              {...tailFormItemLayout}
-            >
-              <Checkbox defaultChecked={false}>
-                Subscribe to newsletter
+          <Form.Item
+            name="newsletter"
+            valuePropName="checked"
+            initialValue={false}
+            {...tailFormItemLayout}
+          >
+            <Checkbox defaultChecked={false}>
+              Subscribe to newsletter
           </Checkbox>
-            </Form.Item>
+          </Form.Item>
 
-            <Form.Item
-              name="agreement"
-              valuePropName="checked"
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject('Should accept agreement'),
-                },
-              ]}
-              {...tailFormItemLayout}
-            >
-              <Checkbox>
-                I have read the agreement
+          <Form.Item
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox>
+              I have read the agreement
           </Checkbox>
-            </Form.Item>
-
+          </Form.Item>
+          {loading ?
+            <div> <Spin size="large"/> </div>:
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" htmlType="submit">
                 Register
-          </Button>
+              </Button>
             </Form.Item>
-          </Form>
-        </div>
-      </Layout>
+          }
+        </Form>
+      </div>
+    </Layout>
   );
 };
 
