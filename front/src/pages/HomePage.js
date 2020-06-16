@@ -3,8 +3,10 @@ import Layout from '../components/myLayout';
 import ProfileCard from '../components/profileCard';
 import '../styles/pages/HomePage.scss';
 import { Link } from 'react-router-dom';
+import { withUser } from '../store/UserProvider';
 
-function HomePage() {
+function HomePage(props) {
+  console.log('props', props)
   const demoUsers = [
     {
       id: "1",
@@ -50,13 +52,12 @@ function HomePage() {
             <Link to={`/user/${one.id}`} className="cardItem" key={index}>
               <ProfileCard user={one} ></ProfileCard>
             </Link>
-            )
+          )
           )
         }
-
       </div>
     </Layout>
   );
 }
 
-export default HomePage;
+export default withUser(HomePage);

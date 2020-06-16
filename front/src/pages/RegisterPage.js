@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import "../styles/pages/RegisterPage.scss"
 import { register } from '../services/network'
+import { withUser } from '../store/UserProvider';
 
 const { Option } = Select;
 
@@ -43,7 +44,7 @@ const tailFormItemLayout = {
   },
 };
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false)
   const onFinish = values => {
@@ -55,147 +56,145 @@ const RegisterPage = () => {
     register(values).then(res => {
       console.log('res')
       setLoading(false)
+      props.setUser(res.user)
     })
   };
-
+  console.log('props register page ', props)
   return (
-    <Layout>
-      <div className="registerPage">
-
-
-
-        <Form
-          {...formItemLayout}
-          form={form}
-          name="register"
-          onFinish={onFinish}
-          scrollToFirstError
-        >
-          <Form.Item
-            name="firstname"
-            label="Firstname"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+      <Layout>
+        <div className="registerPage">
+          <Form
+            {...formItemLayout}
+            form={form}
+            name="register"
+            onFinish={onFinish}
+            scrollToFirstError
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="lastname"
-            label="Lastname"
-            initialValue=""
-          >
-            <Input/>
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="E-mail"
-            rules={[
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-              {
-                min: 6,
-                message: 'Please input min 6 char',
-              }
-            ]}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item
-            name="confirm"
-            label="Confirm Password"
-            dependencies={['password']}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: 'Please confirm your password!',
-              },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve();
-                  }
-
-                  return Promise.reject('The two passwords that you entered do not match!');
+            <Form.Item
+              name="firstname"
+              label="Firstname"
+              rules={[
+                {
+                  required: true,
                 },
-              }),
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item name="status" label="Status" rules={[{ required: true }]}>
-            <Select
-              placeholder="Select a status"
-              allowClear
+              ]}
             >
-              <Option value="TEACHER">Teacher</Option>
-              <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
-              <Option value="STUDENT">Student</Option>
-            </Select>
-          </Form.Item>
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="lastname"
+              label="Lastname"
+              initialValue=""
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label="E-mail"
+              rules={[
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-          <Form.Item
-            name="newsletter"
-            valuePropName="checked"
-            initialValue={false}
-            {...tailFormItemLayout}
-          >
-            <Checkbox defaultChecked={false}>
-              Subscribe to newsletter
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+                {
+                  min: 6,
+                  message: 'Please input min 6 char',
+                }
+              ]}
+              hasFeedback
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: 'Please confirm your password!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject('The two passwords that you entered do not match!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select a status"
+                allowClear
+              >
+                <Option value="TEACHER">Teacher</Option>
+                <Option value="TEACHER_ASSISTANT">Teacher assistant</Option>
+                <Option value="STUDENT">Student</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              name="newsletter"
+              valuePropName="checked"
+              initialValue={false}
+              {...tailFormItemLayout}
+            >
+              <Checkbox defaultChecked={false}>
+                Subscribe to newsletter
           </Checkbox>
-          </Form.Item>
+            </Form.Item>
 
-          <Form.Item
-            name="agreement"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value ? Promise.resolve() : Promise.reject('Should accept agreement'),
-              },
-            ]}
-            {...tailFormItemLayout}
-          >
-            <Checkbox>
-              I have read the agreement
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value ? Promise.resolve() : Promise.reject('Should accept agreement'),
+                },
+              ]}
+              {...tailFormItemLayout}
+            >
+              <Checkbox>
+                I have read the agreement
           </Checkbox>
-          </Form.Item>
+            </Form.Item>
 
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Register
+            <Form.Item {...tailFormItemLayout}>
+              <Button type="primary" htmlType="submit">
+                Register
           </Button>
-          </Form.Item>
-        </Form>
-      </div>
-    </Layout>
+            </Form.Item>
+          </Form>
+        </div>
+      </Layout>
   );
 };
 
 
-export default RegisterPage
+export default withUser(RegisterPage);
