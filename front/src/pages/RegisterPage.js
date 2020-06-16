@@ -23,7 +23,7 @@ const formItemLayout = {
       span: 24,
     },
     sm: {
-      span: 8,
+      span: 6,
     },
   },
   wrapperCol: {
@@ -143,7 +143,7 @@ const RegisterPage = (props) => {
               },
               {
                 min: 8,
-                message: 'Please input min 6 char',
+                message: 'Please input min 8 char',
               }
             ]}
             hasFeedback
