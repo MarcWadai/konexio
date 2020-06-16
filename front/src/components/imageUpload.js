@@ -1,6 +1,7 @@
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
+import constants from '../services/config';
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -31,9 +32,9 @@ function ImageUpload(props) {
         }
         if (info.file.status === 'done') {
             // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl => {
-                setImageUrl(imageUrl)
-                props.setImage(imageUrl)
+            getBase64(info.file.originFileObj, image => {
+                setImageUrl(image)
+                props.setImage(info.file.response.location)
                 setLoading(false)
             });
         }
@@ -50,7 +51,7 @@ function ImageUpload(props) {
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="/v1/upload"
+            action={`${constants.baseUrl}/v1/upload`}
             beforeUpload={beforeUpload}
             onChange={handleChange}
         >
