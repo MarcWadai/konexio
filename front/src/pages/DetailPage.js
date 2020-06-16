@@ -22,7 +22,7 @@ function DetailPage(props) {
       setUser(result)
       form.setFieldsValue({ firstname: result.firstname })
     }).catch(err => setError(true))
-  }, [])
+  }, [form, props.currentUser, userId])
 
   const onUpdate = (data) => {
     setError(false)
