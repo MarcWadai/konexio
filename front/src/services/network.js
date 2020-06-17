@@ -1,6 +1,8 @@
 import axios from 'axios'
 import constants from './config';
 
+axios.defaults.withCredentials = true;
+
 async function register (body) {
   try {
     const { data } = await axios.post(`${constants.baseUrl}/v1/auth/register`, body);
