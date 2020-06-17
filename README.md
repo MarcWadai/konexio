@@ -8,14 +8,15 @@ Two tables are created in mongodb users and token.
 - The user table store all information related to the user
 
 ------
-- You can access the website here : [site](konexio.mushcommunity.org)
-- You can access the API here: [api](api.konexio.mushcommunity.org/v1)
-- You can access the API documentation here : [docs](api.konexio.mushcommunity.org/v1/docs)
+- You can access the website here : [site](https://konexio.mushcommunity.org)
+- You can access the API here: [api](https://api.konexio.mushcommunity.org/v1)
+- You can access the API documentation here : [docs](https://api.konexio.mushcommunity.org/v1/docs)
 
 -----
 
 ## Back
 The backend was deployed on Digital Ocean on NodeJS v12 and served by nginx. It was at first deployed on heroku, but the use of an SSL certificate was priced consequently we had mixed content error on the webpage (the static site was served through HTTPS).
+The server processes are managed with pm2. There is currently 2 process running in cluster mode on the server.
 
 So I decided to make the install manually, and create the certificate with openssl and Let's encrypt.
 
