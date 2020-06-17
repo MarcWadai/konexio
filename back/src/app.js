@@ -16,6 +16,18 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
 const app = express();
+const whitelist = ['https://konexio.mushcommunity.org']
+const corsOptions = {
+  credentials: true,
+  optionsSuccessStatus: 200,
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -39,8 +51,15 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.use(cors());
-app.options('*', cors());
+if (config.env !== 'production') {
+  app.use(cors());
+  app.options('*', cors());
+} else {
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
+}
+
+
 
 app.use(cookieParser());
 // jwt authentication
@@ -51,7 +70,6 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
-
 // v1 api routes
 app.use('/v1', routes);
 
